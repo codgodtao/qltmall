@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qltmall.mvc.mbg.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.qltmall.mvc.mbg.model.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_address_id" jdbcType="INTEGER" property="userAddressId" />
+    <result column="hair_id" jdbcType="INTEGER" property="hairId" />
+    <result column="order_number" jdbcType="SMALLINT" property="orderNumber" />
+    <result column="order_account" jdbcType="DECIMAL" property="orderAccount" />
+    <result column="order_date" jdbcType="DATE" property="orderDate" />
+    <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, user_address_id, hair_id, order_number, order_account, order_date, order_sn
+  </sql>
+  <select id="selectByExample" parameterType="com.qltmall.mvc.mbg.model.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qltmall.mvc.mbg.model.OrderExample">
+    delete from order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qltmall.mvc.mbg.model.Order">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order (user_id, user_address_id, hair_id, 
+      order_number, order_account, order_date, 
+      order_sn)
+    values (#{userId,jdbcType=INTEGER}, #{userAddressId,jdbcType=INTEGER}, #{hairId,jdbcType=INTEGER}, 
+      #{orderNumber,jdbcType=SMALLINT}, #{orderAccount,jdbcType=DECIMAL}, #{orderDate,jdbcType=DATE}, 
+      #{orderSn,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qltmall.mvc.mbg.model.Order">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userAddressId != null">
+        user_address_id,
+      </if>
+      <if test="hairId != null">
+        hair_id,
+      </if>
+      <if test="orderNumber != null">
+        order_number,
+      </if>
+      <if test="orderAccount != null">
+        order_account,
+      </if>
+      <if test="orderDate != null">
+        order_date,
+      </if>
+      <if test="orderSn != null">
+        order_sn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userAddressId != null">
+        #{userAddressId,jdbcType=INTEGER},
+      </if>
+      <if test="hairId != null">
+        #{hairId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="orderAccount != null">
+        #{orderAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDate != null">
+        #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="orderSn != null">
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qltmall.mvc.mbg.model.OrderExample" resultType="java.lang.Integer">
+    select count(*) from order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update order
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userAddressId != null">
+        user_address_id = #{record.userAddressId,jdbcType=INTEGER},
+      </if>
+      <if test="record.hairId != null">
+        hair_id = #{record.hairId,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderNumber != null">
+        order_number = #{record.orderNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="record.orderAccount != null">
+        order_account = #{record.orderAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderDate != null">
+        order_date = #{record.orderDate,jdbcType=DATE},
+      </if>
+      <if test="record.orderSn != null">
+        order_sn = #{record.orderSn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update order
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      user_address_id = #{record.userAddressId,jdbcType=INTEGER},
+      hair_id = #{record.hairId,jdbcType=INTEGER},
+      order_number = #{record.orderNumber,jdbcType=SMALLINT},
+      order_account = #{record.orderAccount,jdbcType=DECIMAL},
+      order_date = #{record.orderDate,jdbcType=DATE},
+      order_sn = #{record.orderSn,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qltmall.mvc.mbg.model.Order">
+    update order
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userAddressId != null">
+        user_address_id = #{userAddressId,jdbcType=INTEGER},
+      </if>
+      <if test="hairId != null">
+        hair_id = #{hairId,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null">
+        order_number = #{orderNumber,jdbcType=SMALLINT},
+      </if>
+      <if test="orderAccount != null">
+        order_account = #{orderAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="orderDate != null">
+        order_date = #{orderDate,jdbcType=DATE},
+      </if>
+      <if test="orderSn != null">
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qltmall.mvc.mbg.model.Order">
+    update order
+    set user_id = #{userId,jdbcType=INTEGER},
+      user_address_id = #{userAddressId,jdbcType=INTEGER},
+      hair_id = #{hairId,jdbcType=INTEGER},
+      order_number = #{orderNumber,jdbcType=SMALLINT},
+      order_account = #{orderAccount,jdbcType=DECIMAL},
+      order_date = #{orderDate,jdbcType=DATE},
+      order_sn = #{orderSn,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

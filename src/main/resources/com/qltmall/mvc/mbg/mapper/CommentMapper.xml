@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qltmall.mvc.mbg.mapper.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.qltmall.mvc.mbg.model.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="com_type" jdbcType="BIT" property="comType" />
+    <result column="id_value" jdbcType="INTEGER" property="idValue" />
+    <result column="con_grade" jdbcType="BIT" property="conGrade" />
+    <result column="con_desc" jdbcType="VARCHAR" property="conDesc" />
+    <result column="com_time" jdbcType="DATE" property="comTime" />
+    <result column="com_image" jdbcType="VARCHAR" property="comImage" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, com_type, id_value, con_grade, con_desc, com_time, com_image
+  </sql>
+  <select id="selectByExample" parameterType="com.qltmall.mvc.mbg.model.CommentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qltmall.mvc.mbg.model.CommentExample">
+    delete from comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qltmall.mvc.mbg.model.Comment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into comment (user_id, com_type, id_value, 
+      con_grade, con_desc, com_time, 
+      com_image)
+    values (#{userId,jdbcType=INTEGER}, #{comType,jdbcType=BIT}, #{idValue,jdbcType=INTEGER}, 
+      #{conGrade,jdbcType=BIT}, #{conDesc,jdbcType=VARCHAR}, #{comTime,jdbcType=DATE}, 
+      #{comImage,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qltmall.mvc.mbg.model.Comment">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="comType != null">
+        com_type,
+      </if>
+      <if test="idValue != null">
+        id_value,
+      </if>
+      <if test="conGrade != null">
+        con_grade,
+      </if>
+      <if test="conDesc != null">
+        con_desc,
+      </if>
+      <if test="comTime != null">
+        com_time,
+      </if>
+      <if test="comImage != null">
+        com_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="comType != null">
+        #{comType,jdbcType=BIT},
+      </if>
+      <if test="idValue != null">
+        #{idValue,jdbcType=INTEGER},
+      </if>
+      <if test="conGrade != null">
+        #{conGrade,jdbcType=BIT},
+      </if>
+      <if test="conDesc != null">
+        #{conDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="comTime != null">
+        #{comTime,jdbcType=DATE},
+      </if>
+      <if test="comImage != null">
+        #{comImage,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qltmall.mvc.mbg.model.CommentExample" resultType="java.lang.Integer">
+    select count(*) from comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update comment
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.comType != null">
+        com_type = #{record.comType,jdbcType=BIT},
+      </if>
+      <if test="record.idValue != null">
+        id_value = #{record.idValue,jdbcType=INTEGER},
+      </if>
+      <if test="record.conGrade != null">
+        con_grade = #{record.conGrade,jdbcType=BIT},
+      </if>
+      <if test="record.conDesc != null">
+        con_desc = #{record.conDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comTime != null">
+        com_time = #{record.comTime,jdbcType=DATE},
+      </if>
+      <if test="record.comImage != null">
+        com_image = #{record.comImage,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update comment
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      com_type = #{record.comType,jdbcType=BIT},
+      id_value = #{record.idValue,jdbcType=INTEGER},
+      con_grade = #{record.conGrade,jdbcType=BIT},
+      con_desc = #{record.conDesc,jdbcType=VARCHAR},
+      com_time = #{record.comTime,jdbcType=DATE},
+      com_image = #{record.comImage,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qltmall.mvc.mbg.model.Comment">
+    update comment
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="comType != null">
+        com_type = #{comType,jdbcType=BIT},
+      </if>
+      <if test="idValue != null">
+        id_value = #{idValue,jdbcType=INTEGER},
+      </if>
+      <if test="conGrade != null">
+        con_grade = #{conGrade,jdbcType=BIT},
+      </if>
+      <if test="conDesc != null">
+        con_desc = #{conDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="comTime != null">
+        com_time = #{comTime,jdbcType=DATE},
+      </if>
+      <if test="comImage != null">
+        com_image = #{comImage,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qltmall.mvc.mbg.model.Comment">
+    update comment
+    set user_id = #{userId,jdbcType=INTEGER},
+      com_type = #{comType,jdbcType=BIT},
+      id_value = #{idValue,jdbcType=INTEGER},
+      con_grade = #{conGrade,jdbcType=BIT},
+      con_desc = #{conDesc,jdbcType=VARCHAR},
+      com_time = #{comTime,jdbcType=DATE},
+      com_image = #{comImage,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

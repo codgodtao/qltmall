@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qltmall.mvc.mbg.mapper.ScienceDocMapper">
+  <resultMap id="BaseResultMap" type="com.qltmall.mvc.mbg.model.ScienceDoc">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="doc_name" jdbcType="VARCHAR" property="docName" />
+    <result column="keywords" jdbcType="VARCHAR" property="keywords" />
+    <result column="doc_content" jdbcType="VARCHAR" property="docContent" />
+    <result column="doc_author" jdbcType="VARCHAR" property="docAuthor" />
+    <result column="doc_time" jdbcType="DATE" property="docTime" />
+    <result column="doc_thumb" jdbcType="VARCHAR" property="docThumb" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, doc_name, keywords, doc_content, doc_author, doc_time, doc_thumb
+  </sql>
+  <select id="selectByExample" parameterType="com.qltmall.mvc.mbg.model.ScienceDocExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from science_doc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from science_doc
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from science_doc
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.qltmall.mvc.mbg.model.ScienceDocExample">
+    delete from science_doc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.qltmall.mvc.mbg.model.ScienceDoc">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into science_doc (doc_name, keywords, doc_content, 
+      doc_author, doc_time, doc_thumb
+      )
+    values (#{docName,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, #{docContent,jdbcType=VARCHAR}, 
+      #{docAuthor,jdbcType=VARCHAR}, #{docTime,jdbcType=DATE}, #{docThumb,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qltmall.mvc.mbg.model.ScienceDoc">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into science_doc
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="docName != null">
+        doc_name,
+      </if>
+      <if test="keywords != null">
+        keywords,
+      </if>
+      <if test="docContent != null">
+        doc_content,
+      </if>
+      <if test="docAuthor != null">
+        doc_author,
+      </if>
+      <if test="docTime != null">
+        doc_time,
+      </if>
+      <if test="docThumb != null">
+        doc_thumb,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="docName != null">
+        #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null">
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="docContent != null">
+        #{docContent,jdbcType=VARCHAR},
+      </if>
+      <if test="docAuthor != null">
+        #{docAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="docTime != null">
+        #{docTime,jdbcType=DATE},
+      </if>
+      <if test="docThumb != null">
+        #{docThumb,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.qltmall.mvc.mbg.model.ScienceDocExample" resultType="java.lang.Integer">
+    select count(*) from science_doc
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update science_doc
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.docName != null">
+        doc_name = #{record.docName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keywords != null">
+        keywords = #{record.keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docContent != null">
+        doc_content = #{record.docContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docAuthor != null">
+        doc_author = #{record.docAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docTime != null">
+        doc_time = #{record.docTime,jdbcType=DATE},
+      </if>
+      <if test="record.docThumb != null">
+        doc_thumb = #{record.docThumb,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update science_doc
+    set id = #{record.id,jdbcType=INTEGER},
+      doc_name = #{record.docName,jdbcType=VARCHAR},
+      keywords = #{record.keywords,jdbcType=VARCHAR},
+      doc_content = #{record.docContent,jdbcType=VARCHAR},
+      doc_author = #{record.docAuthor,jdbcType=VARCHAR},
+      doc_time = #{record.docTime,jdbcType=DATE},
+      doc_thumb = #{record.docThumb,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qltmall.mvc.mbg.model.ScienceDoc">
+    update science_doc
+    <set>
+      <if test="docName != null">
+        doc_name = #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null">
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="docContent != null">
+        doc_content = #{docContent,jdbcType=VARCHAR},
+      </if>
+      <if test="docAuthor != null">
+        doc_author = #{docAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="docTime != null">
+        doc_time = #{docTime,jdbcType=DATE},
+      </if>
+      <if test="docThumb != null">
+        doc_thumb = #{docThumb,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qltmall.mvc.mbg.model.ScienceDoc">
+    update science_doc
+    set doc_name = #{docName,jdbcType=VARCHAR},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      doc_content = #{docContent,jdbcType=VARCHAR},
+      doc_author = #{docAuthor,jdbcType=VARCHAR},
+      doc_time = #{docTime,jdbcType=DATE},
+      doc_thumb = #{docThumb,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
